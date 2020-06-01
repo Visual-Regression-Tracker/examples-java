@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.github.visual-regression-tracker', name: 'sdk-java', version: 'v1.0.0-preview2'
+    implementation group: 'com.github.visual-regression-tracker', name: 'sdk-java', version: 'v1.0.1'
     implementation group: 'com.codeborne', name: 'selenide', version: '4.2.1'
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.8.1'
     implementation 'org.testng:testng:6.9.6'
