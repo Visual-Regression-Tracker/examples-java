@@ -2,9 +2,9 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.visual_regression_tracker.sdk_java.Config;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
+import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.testng.annotations.AfterSuite;
@@ -17,9 +17,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class SelenideExample {
     VisualRegressionTracker visualRegressionTracker;
-    Config config = new Config(
+    VisualRegressionTrackerConfig config = new VisualRegressionTrackerConfig(
             "http://localhost:4200", // replace with your data
-            "31d57436-0924-4e19-86ca-9c5fd3bf32eb", // replace with your data
+            "733c148e-ef70-4e6d-9ae5-ab22263697cc", // replace with your data
             "BAZ0EG0PRH4CRQPH19ZKAVADBP9E", // replace with your data
             "develop" // replace with your data
     );
@@ -50,7 +50,6 @@ public class SelenideExample {
                         .build()
         );
 
-
         $("[name='q']")
                 .setValue("Visual Regression tracker")
                 .pressEnter();
@@ -62,7 +61,7 @@ public class SelenideExample {
                         .browser("Chrome")
                         .os("Windows")
                         .viewport("1200x800")
-                        .diffTollerancePercent(1)
+                        .diffTollerancePercent(0)
                         .build()
         );
     }
