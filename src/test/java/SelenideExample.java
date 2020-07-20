@@ -19,8 +19,8 @@ public class SelenideExample {
     VisualRegressionTracker visualRegressionTracker;
     VisualRegressionTrackerConfig config = new VisualRegressionTrackerConfig(
             "http://localhost:4200", // replace with your data
-            "733c148e-ef70-4e6d-9ae5-ab22263697cc", // replace with your data
-            "BAZ0EG0PRH4CRQPH19ZKAVADBP9E", // replace with your data
+            "Default project", // replace with your data
+            "XHGDZDFD3GMJDNM87JKEMP0JS1G5", // replace with your data
             "develop" // replace with your data
     );
 
