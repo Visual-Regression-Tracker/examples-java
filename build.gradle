@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation group: 'com.github.visual-regression-tracker', name: 'sdk-java', version: '3.1.1'
-    implementation group: 'com.codeborne', name: 'selenide', version: '5.13.0'
+    implementation group: 'com.codeborne', name: 'selenide', version: '5.13.1'
     implementation 'org.testng:testng:7.3.0'
 }
 
