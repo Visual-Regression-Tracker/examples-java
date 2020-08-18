@@ -20,33 +20,35 @@ public class SelenideExample {
     VisualRegressionTrackerConfig config = new VisualRegressionTrackerConfig(
             "http://localhost:4200", // replace with your data
             "Default project", // replace with your data
-            "XHGDZDFD3GMJDNM87JKEMP0JS1G5", // replace with your data
+            "CPKVK4JNK24NVNPNGVFQ853HXXEG", // replace with your data
             "develop" // replace with your data
     );
 
     @BeforeSuite
-    public void setUp() {
-        visualRegressionTracker = new VisualRegressionTracker(config);
-
+    public void setUp() throws IOException {
         WebDriverManager.chromedriver().setup();
         Configuration.baseUrl = "https://google.com";
         Configuration.browser = "chrome";
         Configuration.browserSize = "1200x800";
+
+        visualRegressionTracker = new VisualRegressionTracker(config);
+        visualRegressionTracker.start();
     }
 
     @AfterSuite
-    public void tearDown() {
+    public void tearDown() throws IOException {
         WebDriverRunner.closeWebDriver();
+        visualRegressionTracker.stop();
     }
 
     @Test
     public void testExample() throws IOException {
         Selenide.open("/");
+        
         visualRegressionTracker.track(
                 "Home page",
                 ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BASE64),
                 TestRunOptions.builder()
-                        .diffTollerancePercent(0)
                         .build()
         );
 
@@ -61,7 +63,7 @@ public class SelenideExample {
                         .browser("Chrome")
                         .os("Windows")
                         .viewport("1200x800")
-                        .diffTollerancePercent(0)
+                        .diffTollerancePercent(0.1f)
                         .build()
         );
     }

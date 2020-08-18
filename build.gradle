@@ -11,9 +11,11 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.github.visual-regression-tracker', name: 'sdk-java', version: '3.1.1'
-    implementation group: 'com.codeborne', name: 'selenide', version: '5.13.0'
+    implementation group: 'com.github.visual-regression-tracker', name: 'sdk-java', version: '4.0.1'
+    implementation group: 'com.codeborne', name: 'selenide', version: '5.14.0'
     implementation 'org.testng:testng:7.3.0'
+    compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+
 }
 
 test {
