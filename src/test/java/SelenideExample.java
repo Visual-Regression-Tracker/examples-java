@@ -21,7 +21,8 @@ public class SelenideExample {
             "http://localhost:4200", // replace with your data
             "Default project", // replace with your data
             "CPKVK4JNK24NVNPNGVFQ853HXXEG", // replace with your data
-            "develop" // replace with your data
+            "master", // replace with your data
+            true
     );
 
     @BeforeSuite
@@ -44,7 +45,7 @@ public class SelenideExample {
     @Test
     public void testExample() throws IOException {
         Selenide.open("/");
-        
+
         visualRegressionTracker.track(
                 "Home page",
                 ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BASE64),
@@ -63,7 +64,7 @@ public class SelenideExample {
                         .browser("Chrome")
                         .os("Windows")
                         .viewport("1200x800")
-                        .diffTollerancePercent(0.1f)
+                        .diffTollerancePercent(0.0f)
                         .build()
         );
     }
