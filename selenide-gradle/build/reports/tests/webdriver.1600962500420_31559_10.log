@@ -1,0 +1,216 @@
+[1600962500.555][INFO]: Starting ChromeDriver 85.0.4183.87 (cd6713ebf92fa1cacc0f1a598df280093af0c5d7-refs/branch-heads/4183@{#1689}) on port 15711
+[1600962500.556][INFO]: Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+[1600962500.593][WARNING]: FromSockAddr failed on netmask
+[1600962501.022][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND InitSession {
+   "capabilities": {
+      "firstMatch": [ {
+         "acceptInsecureCerts": true,
+         "browserName": "chrome",
+         "goog:chromeOptions": {
+            "args": [ "--proxy-bypass-list=\u003C-loopback>", "--disable-dev-shm-usage" ],
+            "excludeSwitches": [ "enable-automation", "load-extension" ],
+            "extensions": [  ],
+            "prefs": {
+               "credentials_enable_service": false,
+               "download.default_directory": "/Users/pashidlos/work/vrt/examples-java/build/downloads/1600962499719_31559_10",
+               "plugins.always_open_pdf_externally": true
+            }
+         },
+         "pageLoadStrategy": "normal"
+      } ]
+   },
+   "desiredCapabilities": {
+      "acceptInsecureCerts": true,
+      "acceptSslCerts": true,
+      "browserName": "chrome",
+      "goog:chromeOptions": {
+         "args": [ "--proxy-bypass-list=\u003C-loopback>", "--disable-dev-shm-usage" ],
+         "excludeSwitches": [ "enable-automation", "load-extension" ],
+         "extensions": [  ],
+         "prefs": {
+            "credentials_enable_service": false,
+            "download.default_directory": "/Users/pashidlos/work/vrt/examples-java/build/downloads/1600962499719_31559_10",
+            "plugins.always_open_pdf_externally": true
+         }
+      },
+      "handlesAlerts": true,
+      "javascriptEnabled": true,
+      "pageLoadStrategy": "normal",
+      "takesScreenshot": true
+   }
+}
+[1600962501.024][INFO]: Populating Preferences file: {
+   "alternate_error_pages": {
+      "enabled": false
+   },
+   "autofill": {
+      "enabled": false
+   },
+   "browser": {
+      "check_default_browser": false
+   },
+   "credentials_enable_service": false,
+   "distribution": {
+      "import_bookmarks": false,
+      "import_history": false,
+      "import_search_engine": false,
+      "make_chrome_default_for_user": false,
+      "skip_first_run_ui": true
+   },
+   "dns_prefetching": {
+      "enabled": false
+   },
+   "download": {
+      "default_directory": "/Users/pashidlos/work/vrt/examples-java/build/downloads/1600962499719_31559_10"
+   },
+   "plugins": {
+      "always_open_pdf_externally": true
+   },
+   "profile": {
+      "content_settings": {
+         "pattern_pairs": {
+            "https://*,*": {
+               "media-stream": {
+                  "audio": "Default",
+                  "video": "Default"
+               }
+            }
+         }
+      },
+      "default_content_setting_values": {
+         "geolocation": 1
+      },
+      "default_content_settings": {
+         "geolocation": 1,
+         "mouselock": 1,
+         "notifications": 1,
+         "popups": 1,
+         "ppapi-broker": 1
+      },
+      "password_manager_enabled": false
+   },
+   "safebrowsing": {
+      "enabled": false
+   },
+   "search": {
+      "suggest_enabled": false
+   },
+   "translate": {
+      "enabled": false
+   }
+}
+[1600962501.025][INFO]: Populating Local State file: {
+   "background_mode": {
+      "enabled": false
+   },
+   "ssl": {
+      "rev_checking": {
+         "enabled": false
+      }
+   }
+}
+[1600962501.025][INFO]: Launching chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-background-networking --disable-client-side-phishing-detection --disable-default-apps --disable-dev-shm-usage --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --enable-blink-features=ShadowDOMV0 --enable-logging --ignore-certificate-errors --log-level=0 --no-first-run --password-store=basic --proxy-bypass-list=<-loopback> --remote-debugging-port=0 --test-type=webdriver --use-mock-keychain --user-data-dir=/var/folders/y0/sb_573sx4414lpl286bq6wqm0000gn/T/.com.google.Chrome.LvN7Gj data:,
+[1600962503.062][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[1600962503.074][INFO]: resolved localhost to ["::1","127.0.0.1"]
+[1600962503.141][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE InitSession {
+   "capabilities": {
+      "acceptInsecureCerts": true,
+      "browserName": "chrome",
+      "browserVersion": "85.0.4183.121",
+      "chrome": {
+         "chromedriverVersion": "85.0.4183.87 (cd6713ebf92fa1cacc0f1a598df280093af0c5d7-refs/branch-heads/4183@{#1689})",
+         "userDataDir": "/var/folders/y0/sb_573sx4414lpl286bq6wqm0000gn/T/.com.google.Chrome.LvN7Gj"
+      },
+      "goog:chromeOptions": {
+         "debuggerAddress": "localhost:65091"
+      },
+      "networkConnectionEnabled": false,
+      "pageLoadStrategy": "normal",
+      "platformName": "mac os x",
+      "proxy": {
+
+      },
+      "setWindowRect": true,
+      "strictFileInteractability": false,
+      "timeouts": {
+         "implicit": 0,
+         "pageLoad": 300000,
+         "script": 30000
+      },
+      "unhandledPromptBehavior": "dismiss and notify",
+      "webauthn:virtualAuthenticators": true
+   },
+   "sessionId": "dfdd4211251ce6cf12895bfaf8301e31"
+}
+[1600962503.194][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND SetWindowRect {
+   "height": 768,
+   "width": 1366
+}
+[1600962503.194][INFO]: Waiting for pending navigations...
+[1600962503.211][INFO]: Done waiting for pending navigations. Status: ok
+[1600962503.316][INFO]: Waiting for pending navigations...
+[1600962503.317][INFO]: Done waiting for pending navigations. Status: ok
+[1600962503.317][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE SetWindowRect {
+   "height": 768,
+   "width": 1366,
+   "x": 22,
+   "y": 45
+}
+[1600962503.336][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND Navigate {
+   "url": "https://2020.openqualityconf.com/"
+}
+[1600962503.336][INFO]: Waiting for pending navigations...
+[1600962503.337][INFO]: Done waiting for pending navigations. Status: ok
+[1600962505.445][INFO]: Waiting for pending navigations...
+[1600962507.703][INFO]: Done waiting for pending navigations. Status: ok
+[1600962507.703][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE Navigate
+[1600962507.706][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND Screenshot {
+
+}
+[1600962507.706][INFO]: Waiting for pending navigations...
+[1600962507.707][INFO]: Done waiting for pending navigations. Status: ok
+[1600962508.274][INFO]: Waiting for pending navigations...
+[1600962508.283][INFO]: Done waiting for pending navigations. Status: ok
+[1600962508.283][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE Screenshot "iVBORw0KGgoAAAANSUhEUgAACqwAAAViCAYAAAB9RE8/AAABKmlDQ1BTa2lhAAAokX2RPUvDUBSGH4uLH6CgooNDNrv4VbV1qENbtYhbo1Dd0jQEsa0hjR+zgpODP6Gzq6s/oGNBcHJ1FwTX+F47pCD1vJycJ29OknPvhdQCitQ0NFtRWCkXrerJqcVAOG47YHiMw..."
+[1600962508.865][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND FindElement {
+   "using": "css selector",
+   "value": "[href='/checkout/select-tickets/']"
+}
+[1600962508.865][INFO]: Waiting for pending navigations...
+[1600962508.866][INFO]: Done waiting for pending navigations. Status: ok
+[1600962508.875][INFO]: Waiting for pending navigations...
+[1600962508.876][INFO]: Done waiting for pending navigations. Status: ok
+[1600962508.876][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE FindElement {
+   "element-6066-11e4-a52e-4f735466cecf": "39e81b8f-63f2-4e7f-ab9f-3f67007c466d"
+}
+[1600962508.903][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND ExecuteScript {
+   "args": [ {
+      "element-6066-11e4-a52e-4f735466cecf": "39e81b8f-63f2-4e7f-ab9f-3f67007c466d"
+   } ],
+   "script": "return (function(){return function(){var k=this;function l(a){return void 0!==a}function m(a){return\"string\"==typeof a}function aa(a,b){a=a.split(\".\");var c=k;a[0]in c||!c.execScript||c.execScript(..."
+}
+[1600962508.903][INFO]: Waiting for pending navigations...
+[1600962508.903][INFO]: Done waiting for pending navigations. Status: ok
+[1600962508.916][INFO]: Waiting for pending navigations...
+[1600962508.916][INFO]: Done waiting for pending navigations. Status: ok
+[1600962508.916][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE ExecuteScript true
+[1600962508.921][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND ClickElement {
+   "id": "39e81b8f-63f2-4e7f-ab9f-3f67007c466d"
+}
+[1600962508.921][INFO]: Waiting for pending navigations...
+[1600962508.922][INFO]: Done waiting for pending navigations. Status: ok
+[1600962509.000][INFO]: Waiting for pending navigations...
+[1600962510.637][INFO]: Done waiting for pending navigations. Status: ok
+[1600962510.637][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE ClickElement
+[1600962510.640][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND Screenshot {
+
+}
+[1600962510.640][INFO]: Waiting for pending navigations...
+[1600962510.640][INFO]: Done waiting for pending navigations. Status: ok
+[1600962511.225][INFO]: Waiting for pending navigations...
+[1600962511.226][INFO]: Done waiting for pending navigations. Status: ok
+[1600962511.226][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE Screenshot "iVBORw0KGgoAAAANSUhEUgAACqwAAAViCAYAAAB9RE8/AAABKmlDQ1BTa2lhAAAokX2RPUvDUBSGH4uLH6CgooNDNrv4VbV1qENbtYhbo1Dd0jQEsa0hjR+zgpODP6Gzq6s/oGNBcHJ1FwTX+F47pCD1vJycJ29OknPvhdQCitQ0NFtRWCkXrerJqcVAOG47YHiMw..."
+[1600962511.738][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] COMMAND Quit {
+
+}
+[1600962511.892][INFO]: [dfdd4211251ce6cf12895bfaf8301e31] RESPONSE Quit
