@@ -16,56 +16,50 @@ import java.io.IOException;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SelenideExample {
-    VisualRegressionTracker visualRegressionTracker;
     VisualRegressionTrackerConfig config = new VisualRegressionTrackerConfig(
-            "http://localhost:4200", // replace with your data
-            "Default project", // replace with your data
-            "CPKVK4JNK24NVNPNGVFQ853HXXEG", // replace with your data
-            "master", // replace with your data
+            "http://localhost:4200",
+            "Demo",
+            "4G16TTD8E54Q6DN1YSXVD8YHSCH3",
+            "master",
             true
     );
+    VisualRegressionTracker vrt = new VisualRegressionTracker(config);
 
     @BeforeSuite
     public void setUp() throws IOException {
         WebDriverManager.chromedriver().setup();
-        Configuration.baseUrl = "https://google.com";
+        Configuration.baseUrl = "http://automationpractice.com/index.php";
         Configuration.browser = "chrome";
-        Configuration.browserSize = "1200x800";
+        Configuration.browserSize = "1240x1024";
 
-        visualRegressionTracker = new VisualRegressionTracker(config);
-        visualRegressionTracker.start();
+        vrt.start();
     }
 
     @AfterSuite
     public void tearDown() throws IOException {
         WebDriverRunner.closeWebDriver();
-        visualRegressionTracker.stop();
+        vrt.stop();
     }
 
     @Test
     public void testExample() throws IOException {
         Selenide.open("/");
 
-        visualRegressionTracker.track(
+        vrt.track(
                 "Home page",
+                ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BASE64));
+
+        $(".product-container").click();
+
+        vrt.track(
+                "Product page",
                 ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BASE64),
                 TestRunOptions.builder()
-                        .build()
-        );
-
-        $("[name='q']")
-                .setValue("Visual Regression tracker")
-                .pressEnter();
-
-        visualRegressionTracker.track(
-                "Search result page",
-                ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BASE64),
-                TestRunOptions.builder()
+                        .device("Macbook Pro")
+                        .os("macOS Catalina")
                         .browser("Chrome")
-                        .os("Windows")
-                        .viewport("1200x800")
+                        .viewport("1240x1024")
                         .diffTollerancePercent(0.0f)
-                        .build()
-        );
+                        .build());
     }
 }
