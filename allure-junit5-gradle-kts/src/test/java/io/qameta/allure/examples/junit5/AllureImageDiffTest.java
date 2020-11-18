@@ -28,13 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class AllureImageDiffTest {
 
-    static VisualRegressionTrackerConfig config = new VisualRegressionTrackerConfig(
-            "http://localhost:4200",
-            "Demo",
-            "4G16TTD8E54Q6DN1YSXVD8YHSCH3",
-            "master",
-            true
-    );
+    static VisualRegressionTrackerConfig config = VisualRegressionTrackerConfig.builder()
+            .apiUrl("http://localhost:4200")
+            .apiKey("0TK0P0NQP6MNFQQPTYYBN27JRAA5")
+            .project("Default project")
+            .branchName("master")
+            .enableSoftAssert(true)
+            .ciBuildId("some build id")
+            .build();
     static VisualRegressionTracker vrt = new VisualRegressionTracker(config);
 
     @BeforeAll

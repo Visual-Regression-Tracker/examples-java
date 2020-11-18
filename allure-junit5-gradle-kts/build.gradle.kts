@@ -57,7 +57,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("com.github.visual-regression-tracker:sdk-java:4.3.1")
+    testImplementation("com.github.visual-regression-tracker:sdk-java:4.5.1")
     testImplementation("com.codeborne:selenide:5.14.0")
     testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumVersion")
     testImplementation("io.qameta.allure:allure-java-commons:$allureVersion")
