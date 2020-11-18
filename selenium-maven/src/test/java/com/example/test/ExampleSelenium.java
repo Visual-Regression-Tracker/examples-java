@@ -1,6 +1,7 @@
 package com.example.test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.visual_regression_tracker.sdk_java.IgnoreAreas;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
@@ -14,17 +15,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class ExampleSelenium {
-    static VisualRegressionTrackerConfig config = new VisualRegressionTrackerConfig(
-            "http://localhost:4200",
-            "Demo",
-            "4G16TTD8E54Q6DN1YSXVD8YHSCH3",
-            "master",
-            true
-    );
     static VisualRegressionTracker vrt;
     static WebDriver driver;
+    static VisualRegressionTrackerConfig config = VisualRegressionTrackerConfig.builder()
+            .apiUrl("http://localhost:4200")
+            .apiKey("0TK0P0NQP6MNFQQPTYYBN27JRAA5")
+            .project("Default project")
+            .branchName("master")
+            .enableSoftAssert(true)
+            .ciBuildId("some build id")
+            .build();
 
     @BeforeClass
     public static void setUp() throws IOException {
@@ -59,6 +62,14 @@ public class ExampleSelenium {
                         .browser("Chrome")
                         .viewport("1240x1024")
                         .diffTollerancePercent(0.0f)
+                        .ignoreAreas(Collections.singletonList(
+                                IgnoreAreas.builder()
+                                        .x(10L)
+                                        .y(10L)
+                                        .width(100L)
+                                        .height(200L)
+                                        .build()
+                        ))
                         .build());
     }
 }
