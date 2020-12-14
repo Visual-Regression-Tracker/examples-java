@@ -25,7 +25,7 @@ public class SelenideExample {
             .project("Default project")
             .branchName("master")
             .enableSoftAssert(true)
-            .ciBuildId("some build id")
+            .httpTimeoutInSeconds(15)
             .build();
 
     VisualRegressionTracker vrt = new VisualRegressionTracker(config);
