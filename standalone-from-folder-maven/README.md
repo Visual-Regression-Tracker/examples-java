@@ -1,7 +1,7 @@
 # 3 ways to use this example
 
 ### Use it as a standalone executable jar file with option to  pass parameters from command line
-- Ensure in the main methd, you are using the only line ```option1_RunWithParameters```
+- Ensure in the main method, you are using the only line ```option1_RunWithParameters```
 - Make a fat jar by giving below maven command
 
     ```mvn clean compile assembly:single```
