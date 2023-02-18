@@ -1,7 +1,12 @@
 import io.visual_regression_tracker.sdk_java.*;
 import io.visual_regression_tracker.sdk_java.response.BuildResponse;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,32 +29,6 @@ public class CompareFromFile {
     static final String BOLD_TEXT = "\033[0;1m";
 
     public static void main(String[] args) {
-        /***
-         * Option 1 - Creating and running as a fat jar to be executed from command line
-         *   Step 1: create a jar file with mvn command
-         *     mvn clean compile assembly:single
-         *   Step 2: Run as a standalone jar like this from command line
-         *     Example: java -jar vrt-standalone-client-1.0.0.jar http://localhost:4200 CDJ3HHD5MY45G0PK5M3PBB6NBGC9 c936bfa4-50b3-40c4-b177-94efbeabfbcf null main
-         *
-         * Option 2 - Ensure the values in option2_RunWithHardcodedValue method are correct and run either from this code or run as a jar file from command line.
-         */
-
-        //Based on your option, ensure only one of the lines below is uncommented while running.
-        option1_RunWithParameters(args);
-        //option2_RunWithHardcodedValue();
-    }
-
-    private static void option2_RunWithHardcodedValue() {
-        String apiUrl = "http://localhost:4200";
-        String apiKey = "CDJ3HHD5MY45G0PK5M3PBB6NBGC9"; //Populate your key
-        String project = "c936bfa4-50b3-40c4-b177-94efbeabfbcf"; // Populate your project
-        String ciBuildId = null;
-        String branch = "main";
-        String filePath = ".";//Give complete path of the image files or . for current path.
-        runVRT(apiUrl, apiKey, project, ciBuildId, branch, filePath);
-    }
-
-    private static void option1_RunWithParameters(String[] args) {
         if (args.length == 0 || args[0].trim().contentEquals("help")) {
             System.out.println(
                     BOLD_TEXT + ANSI_PURPLE + "Pass arguments in the following order" + ANSI_RESET + System.lineSeparator() +
@@ -62,7 +41,6 @@ public class CompareFromFile {
                             BOLD_TEXT + ANSI_YELLOW + "Example: " + ANSI_RESET + ANSI_YELLOW + "java -jar vrt-standalone-client-1.0.0.jar http://localhost:4200 CDJ3HHD5MY45G0PK5M3PBB6NBGC9 c936bfa4-50b3-40c4-b177-94efbeabfbcf null main" + ANSI_RESET);
             System.exit(0);
         }
-
         if (args.length < 2) {
             System.out.println("You have to pass apiUrl, apiKey and project at a minimum." + System.lineSeparator() +
                     "Example: java -jar vrt-standalone-client-1.0.0.jar http://localhost:4200 CDJ3HHD5MY45G0PK5M3PBB6NBGC9 c936bfa4-50b3-40c4-b177-94efbeabfbcf null main");
@@ -70,11 +48,17 @@ public class CompareFromFile {
         }
 
         String apiUrl = args[0];
+        //String apiUrl = "http://localhost:4200";
         String apiKey = args[1];
+        //String apiKey = "CDJ3HHD5MY45G0PK5M3PBB6NBGC9"; //Populate your key
         String project = args[2];
+        //String project = "c936bfa4-50b3-40c4-b177-94efbeabfbcf"; // Populate your project
         String ciBuildId = args.length > 3 ? args[3] : null;
+        //String ciBuildId = null;
         String branch = args.length > 4 ? args[4] : null;
+        //String branch = "main";
         String filePath = args.length > 5 ? args[5] : null;
+        //String filePath = ".";//Give complete path of the image files or . for current path.
 
         filePath = filePath == null ? "." : filePath;
         runVRT(apiUrl, apiKey, project, ciBuildId, branch, filePath);
@@ -106,11 +90,24 @@ public class CompareFromFile {
                 System.out.println("ERROR: Ensure path " + filePath + " exists.");
                 System.exit(1);
             }
+            //If the folder has pdf files, they will be converted to png to be able to compare.
+            File[] fileList = file.listFiles();
+            for (File eachFile : fileList) {
+                if (FilenameUtils.getExtension(eachFile.getName()).equalsIgnoreCase("pdf")) {
+                    PDDocument pdDocument = PDDocument.load(eachFile);
+                    PDFRenderer pdfRenderer = new PDFRenderer(pdDocument);
+                    for (int pageNumber = 0; pageNumber < pdDocument.getNumberOfPages(); ++pageNumber) {
+                        BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(pageNumber, 300, ImageType.RGB);
+                        ImageIO.write(bufferedImage, "PNG", new File(eachFile.getPath().replace(".pdf", "_Page") + (pageNumber + 1) + ".png"));
+                    }
+                    pdDocument.close();
+                }
+            }
             visualRegressionTracker.start();
             //Use the default options builder or custom options builder.
             TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder = TestRunOptions.builder();
             //TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder = getTestRunOptionsBuilder();
-            File[] fileList = file.listFiles();
+            fileList = file.listFiles();
             for (File eachFile : fileList) {
                 String[] imageExtensions = {"png"};
                 if (Arrays.asList(imageExtensions).contains(FilenameUtils.getExtension(eachFile.getName()))) {
