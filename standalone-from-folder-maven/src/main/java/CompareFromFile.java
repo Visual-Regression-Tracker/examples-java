@@ -2,11 +2,11 @@ import io.visual_regression_tracker.sdk_java.*;
 import io.visual_regression_tracker.sdk_java.response.BuildResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -90,50 +90,35 @@ public class CompareFromFile {
                 System.out.println("ERROR: Ensure path " + filePath + " exists.");
                 System.exit(1);
             }
-            //If the folder has pdf files, they will be converted to png to be able to compare.
-            File[] fileList = file.listFiles();
-            for (File eachFile : fileList) {
-                if (FilenameUtils.getExtension(eachFile.getName()).equalsIgnoreCase("pdf")) {
-                    PDDocument pdDocument = PDDocument.load(eachFile);
-                    PDFRenderer pdfRenderer = new PDFRenderer(pdDocument);
-                    for (int pageNumber = 0; pageNumber < pdDocument.getNumberOfPages(); ++pageNumber) {
-                        BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(pageNumber, 300, ImageType.RGB);
-                        ImageIO.write(bufferedImage, "PNG", new File(eachFile.getPath().replace(".pdf", "_Page") + (pageNumber + 1) + ".png"));
-                    }
-                    pdDocument.close();
-                }
-            }
             visualRegressionTracker.start();
             //Use the default options builder or custom options builder.
             TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder = TestRunOptions.builder();
             //TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder = getTestRunOptionsBuilder();
-            fileList = file.listFiles();
+            File[] fileList = file.listFiles();
             for (File eachFile : fileList) {
-                String[] imageExtensions = {"png"};
+                String[] imageExtensions = {"png", "pdf"};
                 if (Arrays.asList(imageExtensions).contains(FilenameUtils.getExtension(eachFile.getName()))) {
-                    FileInputStream fileInputStreamReader = new FileInputStream(eachFile);
-                    byte[] bytes = new byte[(int) eachFile.length()];
-                    fileInputStreamReader.read(bytes);
-                    String encodedBase64 = new String(Base64.getEncoder().encode(bytes));
-                    fileInputStreamReader.close();
-                    try {
-                        int countOfProcessed = results.get("imageProcessedCount") == null ? 1 : Integer.parseInt(results.get("imageProcessedCount").toString()) + 1;
-                        results.put("imageProcessedCount", countOfProcessed);
-                        TestRunResult testRunResult = visualRegressionTracker.track(eachFile.getName(), encodedBase64, testRunOptionsBuilder.build());
-                        String result = String.valueOf(testRunResult.getTestRunResponse().getStatus());
-                        if (!result.equals("OK") && !result.equals("autoApproved"))
-                            results.put("allPassed", false);
-                        int countOfResult = results.get(result) == null ? 1 : Integer.parseInt(results.get(result).toString()) + 1;
-                        results.put(result, countOfResult);
-                        Object imageVerifiedCount = results.get("imageVerifiedCount");
-                        int countOfFilesVerified = imageVerifiedCount == null ? 1 : Integer.parseInt(imageVerifiedCount.toString()) + 1;
-                        results.put("imageVerifiedCount", countOfFilesVerified);
-                    } catch (Exception ex) {
-                        if (!(ex.getMessage().contains("No baseline:") || ex.getMessage().contains("Difference found"))) {
-                            throw ex;
-                        } else {
-                            results.put("allPassed", false);
+                    //If the folder has pdf files, they will be converted to png to be able to compare.
+                    if (FilenameUtils.getExtension(eachFile.getName()).equalsIgnoreCase("pdf")) {
+                        List<BufferedImage> bufferedImageList = getPDFPagesAsImages(eachFile);
+                        for (int index = 0; index < bufferedImageList.size(); index++) {
+                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                            BufferedImage bufferedImage = bufferedImageList.get(index);
+                            ImageIO.write(bufferedImage, "PNG", byteArrayOutputStream);
+                            byte[] bytes = byteArrayOutputStream.toByteArray();
+                            String encodedBase64 = new String(Base64.getEncoder().encode(bytes));
+                            String screenshotName = eachFile.getName().replace(".pdf", "_Page") + (index + 1) + ".png";
+                            runComparison(visualRegressionTracker, results, testRunOptionsBuilder, screenshotName, encodedBase64);
+                            bufferedImage.getGraphics().dispose();
+                            bufferedImage.flush();
                         }
+                    } else {
+                        FileInputStream fileInputStreamReader = new FileInputStream(eachFile);
+                        byte[] bytes = new byte[(int) eachFile.length()];
+                        fileInputStreamReader.read(bytes);
+                        String encodedBase64 = new String(Base64.getEncoder().encode(bytes));
+                        fileInputStreamReader.close();
+                        runComparison(visualRegressionTracker, results, testRunOptionsBuilder, eachFile.getName(), encodedBase64);
                     }
                 }
             }
@@ -151,6 +136,41 @@ public class CompareFromFile {
             }
         }
         System.out.println(BOLD_TEXT + ANSI_GREEN + results + ANSI_RESET);
+    }
+
+    private static void runComparison(VisualRegressionTracker visualRegressionTracker, Map<String, Object> results, TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder, String screenshotName, String encodedBase64) throws IOException, InterruptedException {
+        try {
+            int countOfProcessed = results.get("imageProcessedCount") == null ? 1 : Integer.parseInt(results.get("imageProcessedCount").toString()) + 1;
+            results.put("imageProcessedCount", countOfProcessed);
+            TestRunResult testRunResult = visualRegressionTracker.track(screenshotName, encodedBase64, testRunOptionsBuilder.build());
+            String result = String.valueOf(testRunResult.getTestRunResponse().getStatus());
+            if (!result.equals("OK") && !result.equals("autoApproved"))
+                results.put("allPassed", false);
+            int countOfResult = results.get(result) == null ? 1 : Integer.parseInt(results.get(result).toString()) + 1;
+            results.put(result, countOfResult);
+            Object imageVerifiedCount = results.get("imageVerifiedCount");
+            int countOfFilesVerified = imageVerifiedCount == null ? 1 : Integer.parseInt(imageVerifiedCount.toString()) + 1;
+            results.put("imageVerifiedCount", countOfFilesVerified);
+        } catch (Exception ex) {
+            if (!(ex.getMessage().contains("No baseline:") || ex.getMessage().contains("Difference found"))) {
+                throw ex;
+            } else {
+                results.put("allPassed", false);
+            }
+        }
+    }
+
+    private static List<BufferedImage> getPDFPagesAsImages(File eachFile) throws Exception {
+        List<BufferedImage> bufferedImageList = new ArrayList<>();
+        try (PDDocument pdDocument = PDDocument.load(eachFile)) {
+            PDFRenderer pdfRenderer = new PDFRenderer(pdDocument);
+            for (int pageNumber = 0; pageNumber < pdDocument.getNumberOfPages(); ++pageNumber) {
+                BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(pageNumber, 300);
+                bufferedImageList.add(bufferedImage);
+                //ImageIO.write(bufferedImage, "PNG", new File(eachFile.getPath().replace(".pdf", "_Page") + (pageNumber + 1) + ".png"));
+            }
+        }
+        return bufferedImageList;
     }
 
     private static TestRunOptions.TestRunOptionsBuilder getTestRunOptionsBuilder() {
