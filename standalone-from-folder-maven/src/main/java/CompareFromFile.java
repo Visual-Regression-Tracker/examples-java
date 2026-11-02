@@ -27,17 +27,8 @@ public class CompareFromFile {
         runVRT(args.length > 0 ? args[0] : ".");
     }
 
-    static VisualRegressionTrackerConfig vrtConfig() {
-        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
-        File configFile = new File("vrt.json");
-        if (configFile.exists()) {
-            builder.configFile(configFile);
-        }
-        return builder.build();
-    }
-
     private static void runVRT(String filePath) {
-        VisualRegressionTracker visualRegressionTracker = new VisualRegressionTracker(vrtConfig());
+        VisualRegressionTracker visualRegressionTracker = new VisualRegressionTracker();
         Map<String, Object> results = new HashMap<>();
         results.put("allImageVerified", true);
         results.put("allPassed", true);
@@ -50,14 +41,11 @@ public class CompareFromFile {
                 System.exit(1);
             }
             visualRegressionTracker.start();
-            //Use the default options builder or custom options builder.
             TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder = TestRunOptions.builder();
-            //TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder = getTestRunOptionsBuilder();
             File[] fileList = file.listFiles();
             for (File eachFile : fileList) {
                 String[] imageExtensions = {"png", "pdf"};
                 if (Arrays.asList(imageExtensions).contains(FilenameUtils.getExtension(eachFile.getName()))) {
-                    //If the folder has pdf files, they will be converted to png to be able to compare.
                     if (FilenameUtils.getExtension(eachFile.getName()).equalsIgnoreCase("pdf")) {
                         List<BufferedImage> bufferedImageList = getPDFPagesAsImages(eachFile);
                         for (int index = 0; index < bufferedImageList.size(); index++) {
@@ -127,40 +115,9 @@ public class CompareFromFile {
             for (int pageNumber = 0; pageNumber < pdDocument.getNumberOfPages(); ++pageNumber) {
                 BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(pageNumber, 300);
                 bufferedImageList.add(bufferedImage);
-                //ImageIO.write(bufferedImage, "PNG", new File(eachFile.getPath().replace(".pdf", "_Page") + (pageNumber + 1) + ".png"));
             }
         }
         return bufferedImageList;
-    }
-
-    private static TestRunOptions.TestRunOptionsBuilder getTestRunOptionsBuilder() {
-        //Use only the options you need in below line.
-        String maskData_x = "0";
-        String maskData_y = "0";
-        String maskData_width = "200";
-        String maskData_height = "20";
-        String browser = "";
-        String device = "Sample";
-        String os = "";
-        String viewport = "";
-
-        TestRunOptions.TestRunOptionsBuilder testRunOptionsBuilder = TestRunOptions.builder()
-                .diffTollerancePercent(0.0f)
-                .os(os)
-                .browser(browser)
-                .device(device)
-                .viewport(viewport);
-        if (maskData_height != null && maskData_width != null) {
-            testRunOptionsBuilder.ignoreAreas(Collections.singletonList(
-                    IgnoreAreas.builder()
-                            .x(Long.valueOf(maskData_x))
-                            .y(Long.valueOf(maskData_y))
-                            .width(Long.valueOf(maskData_width))
-                            .height(Long.valueOf(maskData_height))
-                            .build()
-            ));
-        }
-        return testRunOptionsBuilder;
     }
 
     public static void writeHTMLFile(int passed, int failed, int unresolved) throws IOException {

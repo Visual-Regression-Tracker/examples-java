@@ -3,7 +3,6 @@ package com.example.test;
 import io.visual_regression_tracker.sdk_java.IgnoreAreas;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
-import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class SeleniumExampleTest {
     public static void setUp() throws IOException, InterruptedException {
         driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
         driver.manage().window().setSize(new Dimension(1280, 1024));
-        vrt = new VisualRegressionTracker(vrtConfig());
+        vrt = new VisualRegressionTracker();
         vrt.start();
     }
 
@@ -61,14 +59,5 @@ public class SeleniumExampleTest {
                                         .height(200L)
                                         .build()))
                         .build());
-    }
-
-    static VisualRegressionTrackerConfig vrtConfig() {
-        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
-        File configFile = new File("vrt.json");
-        if (configFile.exists()) {
-            builder.configFile(configFile);
-        }
-        return builder.build();
     }
 }

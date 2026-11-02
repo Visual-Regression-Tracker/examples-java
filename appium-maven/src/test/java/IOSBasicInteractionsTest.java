@@ -12,7 +12,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Objects;
@@ -34,7 +33,7 @@ public class IOSBasicInteractionsTest extends BaseTest {
 
         driver = new IOSDriver(getServiceUrl(), options);
 
-        vrt = new VisualRegressionTracker(vrtConfig());
+        vrt = new VisualRegressionTracker();
         vrt.start();
     }
 
@@ -98,14 +97,5 @@ public class IOSBasicInteractionsTest extends BaseTest {
         }
 
         vrtTrackWithRetry(pageName, testRunOptions, maxRetries - 1);
-    }
-
-    static VisualRegressionTrackerConfig vrtConfig() {
-        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
-        File configFile = new File("vrt.json");
-        if (configFile.exists()) {
-            builder.configFile(configFile);
-        }
-        return builder.build();
     }
 }

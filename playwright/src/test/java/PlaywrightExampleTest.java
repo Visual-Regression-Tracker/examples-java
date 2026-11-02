@@ -4,18 +4,16 @@ import com.microsoft.playwright.Playwright;
 import io.visual_regression_tracker.sdk_java.IgnoreAreas;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
-import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
 public class PlaywrightExampleTest {
-    static VisualRegressionTracker vrt = new VisualRegressionTracker(vrtConfig());
+    static VisualRegressionTracker vrt = new VisualRegressionTracker();
     static Playwright playwright;
     static Browser browser;
     static Page page;
@@ -59,14 +57,5 @@ public class PlaywrightExampleTest {
                                         .height(200L)
                                         .build()))
                         .build());
-    }
-
-    static VisualRegressionTrackerConfig vrtConfig() {
-        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
-        File configFile = new File("vrt.json");
-        if (configFile.exists()) {
-            builder.configFile(configFile);
-        }
-        return builder.build();
     }
 }

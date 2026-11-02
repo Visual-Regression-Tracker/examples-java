@@ -3,20 +3,18 @@ import com.codeborne.selenide.Selenide;
 import io.visual_regression_tracker.sdk_java.IgnoreAreas;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
-import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
 import org.openqa.selenium.OutputType;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class SelenideExample {
-    VisualRegressionTracker vrt = new VisualRegressionTracker(vrtConfig());
+    VisualRegressionTracker vrt = new VisualRegressionTracker();
 
     @BeforeSuite
     public void setUp() throws IOException, InterruptedException {
@@ -59,14 +57,5 @@ public class SelenideExample {
                                         .height(200L)
                                         .build()))
                         .build());
-    }
-
-    static VisualRegressionTrackerConfig vrtConfig() {
-        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
-        File configFile = new File("vrt.json");
-        if (configFile.exists()) {
-            builder.configFile(configFile);
-        }
-        return builder.build();
     }
 }
