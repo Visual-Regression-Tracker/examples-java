@@ -23,8 +23,8 @@
         <maven.compiler.release>21</maven.compiler.release>
         <aspectj.version>1.9.26</aspectj.version>
         <domain>https://jdi-testing.github.io/jdi-light/</domain>
-        <allure.testng>2.35.5</allure.testng>
-        <allure.maven>2.18.0</allure.maven>
+        <allure.testng>3.0.1</allure.testng>
+        <allure.maven>3.1.0</allure.maven>
     </properties>
 
     <dependencies>
