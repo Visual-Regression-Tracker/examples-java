@@ -20,7 +20,7 @@ CI only compiles this example: it needs a folder of images.
 java -jar target/vrt-standalone-client-1.0.1.jar <folder>
 ```
 
-Without `<folder>`, the client reads the current folder. You can also run `CompareFromFile` from your IDE.
+Without `<folder>`, the client reads the current folder; `help` prints the usage. You can also run `CompareFromFile` from your IDE.
 
 ## What to expect
 

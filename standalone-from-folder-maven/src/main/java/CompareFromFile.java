@@ -24,6 +24,12 @@ public class CompareFromFile {
     static final String BOLD_TEXT = "\033[0;1m";
 
     public static void main(String[] args) {
+        if (args.length > 1 || (args.length == 1 && args[0].equals("help"))) {
+            System.out.println("Usage: java -jar vrt-standalone-client.jar [folder]" + System.lineSeparator()
+                    + "Tracks the PNG and PDF files in the folder (default: the current one)." + System.lineSeparator()
+                    + "The connection comes from vrt.json in the current folder or VRT_* environment variables.");
+            System.exit(args.length > 1 ? 1 : 0);
+        }
         runVRT(args.length > 0 ? args[0] : ".");
     }
 
