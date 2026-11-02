@@ -1,5 +1,4 @@
 import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import io.visual_regression_tracker.sdk_java.IgnoreAreas;
@@ -12,13 +11,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Collections;
+import java.util.List;
 
-public class PlaywrightExample {
+public class PlaywrightExampleTest {
     static VisualRegressionTracker vrt = new VisualRegressionTracker(
             VisualRegressionTrackerConfig.builder()
                     .apiUrl("http://localhost:4200")
-                    .apiKey("0TK0P0NQP6MNFQQPTYYBN27JRAA5")
+                    .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
                     .project("Default project")
                     .branchName("master")
                     .enableSoftAssert(true)
@@ -28,49 +27,43 @@ public class PlaywrightExample {
     static Page page;
 
     @BeforeClass
-    public static void setUp() throws IOException {
+    public static void setUp() throws IOException, InterruptedException {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().withHeadless(false)
-        );
-        page = browser.newContext(
-                new Browser.NewContextOptions().withViewport(800, 600)
-        ).newPage();
+        browser = playwright.chromium().launch();
+        page = browser.newPage(new Browser.NewPageOptions().setViewportSize(800, 600));
         vrt.start();
     }
 
     @AfterClass
-    public static void tearDown() throws Exception {
-        browser.close();
+    public static void tearDown() throws IOException, InterruptedException {
         playwright.close();
         vrt.stop();
     }
 
     @Test
-    public void example() throws IOException {
-        page.navigate("http://automationpractice.com/index.php");
+    public void example() throws IOException, InterruptedException {
+        page.navigate("https://the-internet.herokuapp.com/");
 
         vrt.track("Home page", Base64.getEncoder().encodeToString(page.screenshot()));
 
-        page.click(".product-container a img");
+        page.locator("a[href='/checkboxes']").click();
 
         vrt.track(
-                "Product page",
+                "Checkboxes page",
                 Base64.getEncoder().encodeToString(page.screenshot()),
                 TestRunOptions.builder()
-                        .device("Macbook Pro")
-                        .os("macOS Catalina")
-                        .browser("Chrome")
-                        .viewport("1240x1024")
+                        .device("PC")
+                        .os(System.getProperty("os.name"))
+                        .browser("Chromium")
+                        .viewport("800x600")
                         .diffTollerancePercent(0.0f)
-                        .ignoreAreas(Collections.singletonList(
+                        .ignoreAreas(List.of(
                                 IgnoreAreas.builder()
                                         .x(10L)
                                         .y(10L)
                                         .width(100L)
                                         .height(200L)
-                                        .build()
-                        ))
+                                        .build()))
                         .build());
     }
 }

@@ -1,11 +1,10 @@
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSElement;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.visual_regression_tracker.sdk_java.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
@@ -14,31 +13,30 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Objects;
 
 public class IOSBasicInteractionsTest extends BaseTest {
     String platformName = "iOS";
     String deviceName = "iPhone 12";
     String platformVersion = "14.5";
-    private IOSDriver<WebElement> driver;
+    private IOSDriver driver;
     private VisualRegressionTracker vrt;
 
     @BeforeTest
     public void setUp() throws IOException, InterruptedException {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("deviceName", deviceName);
-        capabilities.setCapability("platformName", platformName);
-        capabilities.setCapability("platformVersion", platformVersion);
         String appPath = Objects.requireNonNull(getClass().getClassLoader().getResource("App.zip")).getPath();
-        capabilities.setCapability("app", appPath);
-        capabilities.setCapability("automationName", "XCUITest");
+        XCUITestOptions options = new XCUITestOptions()
+                .setDeviceName(deviceName)
+                .setPlatformVersion(platformVersion)
+                .setApp(appPath);
 
-        driver = new IOSDriver<>(getServiceUrl(), capabilities);
+        driver = new IOSDriver(getServiceUrl(), options);
 
         VisualRegressionTrackerConfig vrtConfig = VisualRegressionTrackerConfig.builder()
                 .apiUrl("http://localhost:4200")
-                .apiKey("11Q288KSQKMDJGMH3RVY9N7Y0FJ3")
-                .project("9cb1ff4d-5675-4c85-a41b-8e08dbf6d5f6")
+                .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
+                .project("Default project")
                 .branchName("master")
                 .enableSoftAssert(true)
                 .build();
@@ -58,20 +56,20 @@ public class IOSBasicInteractionsTest extends BaseTest {
     @DataProvider(name = "menu-buttons")
     public Object[][] getMenuButtons() {
         return new Object[][]{
-                {"Home page", MobileBy.AccessibilityId("Home")},
-                {"Web page", MobileBy.AccessibilityId("Webview")},
-                {"Login page", MobileBy.iOSClassChain("**/XCUIElementTypeButton[`label == \"Login\"`]")},
-                {"Forms page", MobileBy.AccessibilityId("Forms")},
-                {"Swipe page", MobileBy.AccessibilityId("Swipe")},
-                {"Drag page", MobileBy.AccessibilityId("Drag")},
+                {"Home page", AppiumBy.accessibilityId("Home")},
+                {"Web page", AppiumBy.accessibilityId("Webview")},
+                {"Login page", AppiumBy.iOSClassChain("**/XCUIElementTypeButton[`label == \"Login\"`]")},
+                {"Forms page", AppiumBy.accessibilityId("Forms")},
+                {"Swipe page", AppiumBy.accessibilityId("Swipe")},
+                {"Drag page", AppiumBy.accessibilityId("Drag")},
 
         };
     }
 
     @Test(dataProvider = "menu-buttons")
-    public void shouldMatchScreenshot(String pageName, MobileBy locator) throws Exception {
+    public void shouldMatchScreenshot(String pageName, By locator) throws Exception {
 
-        IOSElement button = (IOSElement) new WebDriverWait(driver, 30)
+        WebElement button = new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
 
         button.click();
@@ -92,7 +90,7 @@ public class IOSBasicInteractionsTest extends BaseTest {
 
         try {
             result = vrt.track(pageName,
-                    ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64),
+                    driver.getScreenshotAs(OutputType.BASE64),
                     testRunOptions);
         } catch (Exception ex) {
             exception = ex;

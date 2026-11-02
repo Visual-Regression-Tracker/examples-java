@@ -1,6 +1,7 @@
 import io.visual_regression_tracker.sdk_java.*;
 import io.visual_regression_tracker.sdk_java.response.BuildResponse;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
@@ -143,9 +144,10 @@ public class CompareFromFile {
             int countOfProcessed = results.get("imageProcessedCount") == null ? 1 : Integer.parseInt(results.get("imageProcessedCount").toString()) + 1;
             results.put("imageProcessedCount", countOfProcessed);
             TestRunResult testRunResult = visualRegressionTracker.track(screenshotName, encodedBase64, testRunOptionsBuilder.build());
-            String result = String.valueOf(testRunResult.getTestRunResponse().getStatus());
-            if (!result.equals("OK") && !result.equals("autoApproved"))
+            TestRunStatus status = testRunResult.getTestRunResponse().getStatus();
+            if (status != TestRunStatus.OK && status != TestRunStatus.AUTO_APPROVED)
                 results.put("allPassed", false);
+            String result = status.name();
             int countOfResult = results.get(result) == null ? 1 : Integer.parseInt(results.get(result).toString()) + 1;
             results.put(result, countOfResult);
             Object imageVerifiedCount = results.get("imageVerifiedCount");
@@ -162,7 +164,7 @@ public class CompareFromFile {
 
     private static List<BufferedImage> getPDFPagesAsImages(File eachFile) throws Exception {
         List<BufferedImage> bufferedImageList = new ArrayList<>();
-        try (PDDocument pdDocument = PDDocument.load(eachFile)) {
+        try (PDDocument pdDocument = Loader.loadPDF(eachFile)) {
             PDFRenderer pdfRenderer = new PDFRenderer(pdDocument);
             for (int pageNumber = 0; pageNumber < pdDocument.getNumberOfPages(); ++pageNumber) {
                 BufferedImage bufferedImage = pdfRenderer.renderImageWithDPI(pageNumber, 300);

@@ -19,10 +19,10 @@ public class DataTableInteractTests implements TestsInit {
     static VisualRegressionTracker vrt;
     static VisualRegressionTrackerConfig config = VisualRegressionTrackerConfig.builder()
             .apiUrl("http://localhost:4200")
-            .apiKey("5H90NFWM6BMWWDMWKG8T11DWW22Y")
-            .project("cb537710-9d84-4318-b450-2953c5d98361")
+            .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
+            .project("Default project")
             .branchName("master")
-            .enableSoftAssert(false)
+            .enableSoftAssert(true)
             .build();
 
     @BeforeClass
