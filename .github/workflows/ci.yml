@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          java-version: ${{ matrix.example == 'jdi-light-testng' && 21 || 17 }}
           cache: maven
           cache-dependency-path: ${{ matrix.example }}/pom.xml
       - run: mvn -B test-compile
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 17
       - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew testClasses
       - name: Wait for Visual Regression Tracker
@@ -72,13 +72,15 @@ jobs:
       fail-fast: false
       matrix:
         example: [appium-maven, standalone-from-folder-maven]
+    defaults:
+      run:
+        working-directory: ${{ matrix.example }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 17
           cache: maven
           cache-dependency-path: ${{ matrix.example }}/pom.xml
       - run: mvn -B test-compile
-        working-directory: ${{ matrix.example }}
