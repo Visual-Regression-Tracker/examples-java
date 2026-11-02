@@ -1,6 +1,6 @@
 # Visual Regression Tracker examples for Java
 
-Each folder is a separate project on [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) 5.5.0 from JitPack (Java 17):
+Each folder is a separate project on [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) 5.5.0 from JitPack (Java 17; JDI Light needs Java 21):
 
 - [Playwright + Maven + JUnit 4](playwright)
 - [Selenium 4 + Maven + JUnit 4](selenium-maven)

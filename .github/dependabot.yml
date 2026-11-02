@@ -49,6 +49,15 @@ updates:
         patterns:
           - "*"
 
+  - package-ecosystem: docker-compose
+    directory: "/.github/vrt"
+    schedule:
+      interval: weekly
+    groups:
+      docker:
+        patterns:
+          - "*"
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
