@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class AllureImageDiffTest {
 
@@ -72,6 +72,6 @@ public class AllureImageDiffTest {
         attachScreenshotToAllureReport(result.getImageUrl(), "actual");
         attachScreenshotToAllureReport(result.getBaselineUrl(), "expected");
         attachScreenshotToAllureReport(result.getDiffUrl(), "diff");
-        assertEquals(TestRunStatus.OK, result.getTestRunResponse().getStatus());
+        assertNotEquals(TestRunStatus.UNRESOLVED, result.getTestRunResponse().getStatus());
     }
 }

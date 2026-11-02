@@ -20,7 +20,7 @@
         <driver>chrome</driver>
         <!--driver>firefox</driver-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <aspectj.version>1.9.26</aspectj.version>
         <domain>https://jdi-testing.github.io/jdi-light/</domain>
         <allure.testng>2.35.5</allure.testng>
@@ -71,10 +71,6 @@
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/general.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-                    <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
