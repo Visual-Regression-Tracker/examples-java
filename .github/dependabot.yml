@@ -1,0 +1,59 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directories:
+      - "/appium-maven"
+      - "/jdi-light-testng"
+      - "/playwright"
+      - "/selenium-maven"
+      - "/standalone-from-folder-maven"
+    schedule:
+      interval: weekly
+    groups:
+      maven-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      maven-major:
+        patterns:
+          - "*"
+        update-types:
+          - major
+      maven-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: gradle
+    directories:
+      - "/allure-junit5-gradle-kts"
+      - "/selenide-gradle"
+    schedule:
+      interval: weekly
+    groups:
+      gradle-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      gradle-major:
+        patterns:
+          - "*"
+        update-types:
+          - major
+      gradle-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
