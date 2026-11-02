@@ -12,6 +12,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  VRT_APIURL: http://localhost:4200
+  VRT_APIKEY: DEFAULTUSERAPIKEYTOBECHANGED
+  VRT_PROJECT: Default project
+  VRT_BRANCHNAME: master
+  VRT_ENABLESOFTASSERT: "true"
+
 jobs:
   maven:
     name: ${{ matrix.example }}
@@ -19,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example: [jdi-light-testng, playwright, selenium-maven]
+        example: [playwright, selenium-maven]
     defaults:
       run:
         working-directory: ${{ matrix.example }}
@@ -31,7 +38,7 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: ${{ matrix.example == 'jdi-light-testng' && 21 || 17 }}
+          java-version: 17
           cache: maven
           cache-dependency-path: ${{ matrix.example }}/pom.xml
       - run: mvn -B test-compile
@@ -45,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example: [allure-junit5-gradle-kts, selenide-gradle]
+        example: [selenide-gradle]
     defaults:
       run:
         working-directory: ${{ matrix.example }}

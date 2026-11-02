@@ -4,7 +4,6 @@ import com.microsoft.playwright.Playwright;
 import io.visual_regression_tracker.sdk_java.IgnoreAreas;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
-import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,14 +13,7 @@ import java.util.Base64;
 import java.util.List;
 
 public class PlaywrightExampleTest {
-    static VisualRegressionTracker vrt = new VisualRegressionTracker(
-            VisualRegressionTrackerConfig.builder()
-                    .apiUrl("http://localhost:4200")
-                    .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
-                    .project("Default project")
-                    .branchName("master")
-                    .enableSoftAssert(true)
-                    .build());
+    static VisualRegressionTracker vrt = new VisualRegressionTracker();
     static Playwright playwright;
     static Browser browser;
     static Page page;

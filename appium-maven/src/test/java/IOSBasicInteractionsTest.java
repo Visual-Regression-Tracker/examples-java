@@ -33,15 +33,7 @@ public class IOSBasicInteractionsTest extends BaseTest {
 
         driver = new IOSDriver(getServiceUrl(), options);
 
-        VisualRegressionTrackerConfig vrtConfig = VisualRegressionTrackerConfig.builder()
-                .apiUrl("http://localhost:4200")
-                .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
-                .project("Default project")
-                .branchName("master")
-                .enableSoftAssert(true)
-                .build();
-
-        vrt = new VisualRegressionTracker(vrtConfig);
+        vrt = new VisualRegressionTracker();
         vrt.start();
     }
 

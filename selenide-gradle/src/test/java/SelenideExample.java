@@ -3,7 +3,6 @@ import com.codeborne.selenide.Selenide;
 import io.visual_regression_tracker.sdk_java.IgnoreAreas;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
-import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
 import org.openqa.selenium.OutputType;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -15,16 +14,7 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SelenideExample {
-    VisualRegressionTrackerConfig config = VisualRegressionTrackerConfig.builder()
-            .apiUrl("http://localhost:4200")
-            .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
-            .project("Default project")
-            .branchName("master")
-            .enableSoftAssert(true)
-            .httpTimeoutInSeconds(15)
-            .build();
-
-    VisualRegressionTracker vrt = new VisualRegressionTracker(config);
+    VisualRegressionTracker vrt = new VisualRegressionTracker();
 
     @BeforeSuite
     public void setUp() throws IOException, InterruptedException {

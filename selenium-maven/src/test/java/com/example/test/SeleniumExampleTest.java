@@ -3,7 +3,6 @@ package com.example.test;
 import io.visual_regression_tracker.sdk_java.IgnoreAreas;
 import io.visual_regression_tracker.sdk_java.TestRunOptions;
 import io.visual_regression_tracker.sdk_java.VisualRegressionTracker;
-import io.visual_regression_tracker.sdk_java.VisualRegressionTrackerConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,19 +19,12 @@ import java.util.List;
 public class SeleniumExampleTest {
     static VisualRegressionTracker vrt;
     static ChromeDriver driver;
-    static VisualRegressionTrackerConfig config = VisualRegressionTrackerConfig.builder()
-            .apiUrl("http://localhost:4200")
-            .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
-            .project("Default project")
-            .branchName("master")
-            .enableSoftAssert(true)
-            .build();
 
     @BeforeClass
     public static void setUp() throws IOException, InterruptedException {
         driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
         driver.manage().window().setSize(new Dimension(1280, 1024));
-        vrt = new VisualRegressionTracker(config);
+        vrt = new VisualRegressionTracker();
         vrt.start();
     }
 
