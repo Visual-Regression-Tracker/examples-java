@@ -14,25 +14,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public class SeleniumExampleTest {
     static VisualRegressionTracker vrt;
     static ChromeDriver driver;
-    static VisualRegressionTrackerConfig config = VisualRegressionTrackerConfig.builder()
-            .apiUrl("http://localhost:4200")
-            .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
-            .project("Default project")
-            .branchName("master")
-            .enableSoftAssert(true)
-            .build();
 
     @BeforeClass
     public static void setUp() throws IOException, InterruptedException {
         driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
         driver.manage().window().setSize(new Dimension(1280, 1024));
-        vrt = new VisualRegressionTracker(config);
+        vrt = new VisualRegressionTracker(vrtConfig());
         vrt.start();
     }
 
@@ -67,5 +61,14 @@ public class SeleniumExampleTest {
                                         .height(200L)
                                         .build()))
                         .build());
+    }
+
+    static VisualRegressionTrackerConfig vrtConfig() {
+        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
+        File configFile = new File("vrt.json");
+        if (configFile.exists()) {
+            builder.configFile(configFile);
+        }
+        return builder.build();
     }
 }

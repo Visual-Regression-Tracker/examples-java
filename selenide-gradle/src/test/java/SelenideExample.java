@@ -9,22 +9,14 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class SelenideExample {
-    VisualRegressionTrackerConfig config = VisualRegressionTrackerConfig.builder()
-            .apiUrl("http://localhost:4200")
-            .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
-            .project("Default project")
-            .branchName("master")
-            .enableSoftAssert(true)
-            .httpTimeoutInSeconds(15)
-            .build();
-
-    VisualRegressionTracker vrt = new VisualRegressionTracker(config);
+    VisualRegressionTracker vrt = new VisualRegressionTracker(vrtConfig());
 
     @BeforeSuite
     public void setUp() throws IOException, InterruptedException {
@@ -67,5 +59,14 @@ public class SelenideExample {
                                         .height(200L)
                                         .build()))
                         .build());
+    }
+
+    static VisualRegressionTrackerConfig vrtConfig() {
+        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
+        File configFile = new File("vrt.json");
+        if (configFile.exists()) {
+            builder.configFile(configFile);
+        }
+        return builder.build();
     }
 }

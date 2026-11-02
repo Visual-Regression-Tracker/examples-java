@@ -3,12 +3,12 @@ updates:
   - package-ecosystem: maven
     directories:
       - "/appium-maven"
-      - "/jdi-light-testng"
       - "/playwright"
       - "/selenium-maven"
       - "/standalone-from-folder-maven"
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     groups:
       maven-minor-patch:
         patterns:
@@ -28,10 +28,10 @@ updates:
 
   - package-ecosystem: gradle
     directories:
-      - "/allure-junit5-gradle-kts"
       - "/selenide-gradle"
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     groups:
       gradle-minor-patch:
         patterns:
@@ -53,6 +53,7 @@ updates:
     directory: "/.github/vrt"
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     groups:
       docker:
         patterns:
@@ -62,6 +63,7 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     groups:
       github-actions:
         patterns:

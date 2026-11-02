@@ -9,19 +9,13 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
 public class PlaywrightExampleTest {
-    static VisualRegressionTracker vrt = new VisualRegressionTracker(
-            VisualRegressionTrackerConfig.builder()
-                    .apiUrl("http://localhost:4200")
-                    .apiKey("DEFAULTUSERAPIKEYTOBECHANGED")
-                    .project("Default project")
-                    .branchName("master")
-                    .enableSoftAssert(true)
-                    .build());
+    static VisualRegressionTracker vrt = new VisualRegressionTracker(vrtConfig());
     static Playwright playwright;
     static Browser browser;
     static Page page;
@@ -65,5 +59,14 @@ public class PlaywrightExampleTest {
                                         .height(200L)
                                         .build()))
                         .build());
+    }
+
+    static VisualRegressionTrackerConfig vrtConfig() {
+        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
+        File configFile = new File("vrt.json");
+        if (configFile.exists()) {
+            builder.configFile(configFile);
+        }
+        return builder.build();
     }
 }

@@ -1,18 +1,15 @@
 # Visual Regression Tracker examples for Java
 
-Each folder is a separate project on [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) 5.5.0 from JitPack (Java 17; JDI Light needs Java 21):
+Each folder is a separate project with its own build, `vrt.json.example` and README, on [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) 5.5.0 from JitPack and Java 17 or later. The browser examples open https://the-internet.herokuapp.com headless and track screenshots in a [Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) 6.0 server.
 
-- [Playwright + Maven + JUnit 4](playwright)
-- [Selenium 4 + Maven + JUnit 4](selenium-maven)
-- [Selenide + Gradle + TestNG](selenide-gradle)
-- [Allure + Selenide + Gradle (Kotlin DSL) + JUnit 5](allure-junit5-gradle-kts)
-- [Standalone Java: compare PNG and PDF files from a folder + Maven](standalone-from-folder-maven)
-- [JDI Light + TestNG + Maven](jdi-light-testng)
-- [Appium (iOS) + TestNG + Maven](appium-maven)
+| Example                                                      | Stack                                                | Client                                                            |
+| ------------------------------------------------------------ | ---------------------------------------------------- | ----------------------------------------------------------------- |
+| [playwright](playwright)                                     | Playwright, Maven, JUnit 4                           | [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) |
+| [selenium-maven](selenium-maven)                             | Selenium 4, Maven, JUnit 4                           | [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) |
+| [selenide-gradle](selenide-gradle)                           | Selenide, Gradle, TestNG                             | [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) |
+| [appium-maven](appium-maven)                                 | Appium on an iOS simulator, Maven, TestNG            | [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) |
+| [standalone-from-folder-maven](standalone-from-folder-maven) | Command line: PNG and PDF files from a folder, Maven | [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) |
 
-The browser examples open https://the-internet.herokuapp.com headless. They connect to
-`http://localhost:4200` with the default API key and project of a fresh
-[Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker)
-install; change that in each example's `VisualRegressionTrackerConfig`.
+The examples connect with `vrt.json` or `VRT_*` environment variables, the way [sdk-java reads its configuration](https://github.com/Visual-Regression-Tracker/sdk-java#configuration). `vrt.json.example` holds the URL, API key and project of a fresh local install; copy it to `vrt.json` and change what differs.
 
-Run a Maven example with `mvn test`, a Gradle one with `./gradlew test`.
+CI runs the browser examples against a VRT server started from [.github/vrt/docker-compose.yml](.github/vrt/docker-compose.yml) and compiles the other two.

@@ -18,68 +18,26 @@ import java.util.*;
 
 public class CompareFromFile {
 
-    static final String ANSI_BLACK = "\u001B[30m";
-    static final String ANSI_RED = "\u001B[31m";
     static final String ANSI_GREEN = "\u001B[32m";
-    static final String ANSI_YELLOW = "\u001B[33m";
     static final String ANSI_RESET = "\u001B[0m";
-    static final String ANSI_PURPLE = "\u001B[35m";
-    static final String ANSI_CYAN = "\u001B[36m";
     static final String ANSI_BLUE = "\u001B[34m";
-    static final String ANSI_WHITE = "\u001B[37m";
     static final String BOLD_TEXT = "\033[0;1m";
 
     public static void main(String[] args) {
-        if (args.length == 0 || args[0].trim().contentEquals("help")) {
-            System.out.println(
-                    BOLD_TEXT + ANSI_PURPLE + "Pass arguments in the following order" + ANSI_RESET + System.lineSeparator() +
-                            BOLD_TEXT + ANSI_GREEN + "API URL " + ANSI_RESET + ANSI_CYAN + "(mandatory)" + ANSI_RESET + " - This is the url of VRT backend." + System.lineSeparator() +
-                            BOLD_TEXT + ANSI_GREEN + "API Key " + ANSI_RESET + ANSI_CYAN + "(mandatory)" + ANSI_RESET + " - Get it from VRT UI." + System.lineSeparator() +
-                            BOLD_TEXT + ANSI_GREEN + "Project " + ANSI_RESET + ANSI_CYAN + "(mandatory)" + ANSI_RESET + " - Get it from VRT UI." + System.lineSeparator() +
-                            BOLD_TEXT + ANSI_GREEN + "CI Build Id " + ANSI_RESET + ANSI_CYAN + "(optional)" + ANSI_RESET + " - Use it to tag a VRT build with Jenkins build id. Pass null if you want to skip it and use the next parameter." + System.lineSeparator() +
-                            BOLD_TEXT + ANSI_GREEN + "Branch " + ANSI_RESET + ANSI_CYAN + "(optional for VRT higher than 4.19.0)" + ANSI_RESET + " - Will take default branch defined in VRT for the project. Pass null if you want to skip it and use the next parameter." + System.lineSeparator() +
-                            BOLD_TEXT + ANSI_GREEN + "File Path " + ANSI_RESET + ANSI_CYAN + "(optional)" + ANSI_RESET + " - Give full path. It will take current folder if not provided." + System.lineSeparator() +
-                            BOLD_TEXT + ANSI_YELLOW + "Example: " + ANSI_RESET + ANSI_YELLOW + "java -jar vrt-standalone-client-1.0.0.jar http://localhost:4200 CDJ3HHD5MY45G0PK5M3PBB6NBGC9 c936bfa4-50b3-40c4-b177-94efbeabfbcf null main" + ANSI_RESET);
-            System.exit(0);
-        }
-        if (args.length < 2) {
-            System.out.println("You have to pass apiUrl, apiKey and project at a minimum." + System.lineSeparator() +
-                    "Example: java -jar vrt-standalone-client-1.0.0.jar http://localhost:4200 CDJ3HHD5MY45G0PK5M3PBB6NBGC9 c936bfa4-50b3-40c4-b177-94efbeabfbcf null main");
-            System.exit(0);
-        }
-
-        String apiUrl = args[0];
-        //String apiUrl = "http://localhost:4200";
-        String apiKey = args[1];
-        //String apiKey = "CDJ3HHD5MY45G0PK5M3PBB6NBGC9"; //Populate your key
-        String project = args[2];
-        //String project = "c936bfa4-50b3-40c4-b177-94efbeabfbcf"; // Populate your project
-        String ciBuildId = args.length > 3 ? args[3] : null;
-        //String ciBuildId = null;
-        String branch = args.length > 4 ? args[4] : null;
-        //String branch = "main";
-        String filePath = args.length > 5 ? args[5] : null;
-        //String filePath = ".";//Give complete path of the image files or . for current path.
-
-        filePath = filePath == null ? "." : filePath;
-        runVRT(apiUrl, apiKey, project, ciBuildId, branch, filePath);
+        runVRT(args.length > 0 ? args[0] : ".");
     }
 
-    private static void runVRT(String apiUrl, String apiKey, String project, String ciBuildId, String branch, String filePath) {
-        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder configBuilder = VisualRegressionTrackerConfig.builder()
-                .apiUrl(apiUrl)
-                .apiKey(apiKey)
-                .project(project);
+    static VisualRegressionTrackerConfig vrtConfig() {
+        VisualRegressionTrackerConfig.VisualRegressionTrackerConfigBuilder builder = VisualRegressionTrackerConfig.builder();
+        File configFile = new File("vrt.json");
+        if (configFile.exists()) {
+            builder.configFile(configFile);
+        }
+        return builder.build();
+    }
 
-        if (ciBuildId != null && !ciBuildId.contentEquals("null"))
-            configBuilder.ciBuildId(ciBuildId);
-        //If you use VRT version 4.19.0 or lower, then branch is mandatory
-        //For higher versions, branch name will default to the main branch if not provided here.
-        if (branch != null && !branch.contentEquals("null"))
-            configBuilder.branchName(branch);
-        VisualRegressionTrackerConfig config = configBuilder.build();
-
-        VisualRegressionTracker visualRegressionTracker = new VisualRegressionTracker(config);
+    private static void runVRT(String filePath) {
+        VisualRegressionTracker visualRegressionTracker = new VisualRegressionTracker(vrtConfig());
         Map<String, Object> results = new HashMap<>();
         results.put("allImageVerified", true);
         results.put("allPassed", true);
