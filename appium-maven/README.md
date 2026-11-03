@@ -8,7 +8,7 @@ CI only compiles this example: it needs macOS with an iOS simulator.
 
 - macOS with Xcode and the simulator named in the test (`iPhone 12`, iOS 14.5); change `deviceName` and `platformVersion` to one you have
 - [Appium](https://appium.io/docs/en/latest/quickstart/) with the XCUITest driver: `npm install -g appium`, then `appium driver install xcuitest`
-- JDK 17 or later and Maven
+- JDK 25 or later and Maven
 - A running [Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) 6.0 server and its API key
 
 ## Setup
