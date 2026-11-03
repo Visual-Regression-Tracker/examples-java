@@ -1,6 +1,6 @@
 # Visual Regression Tracker examples for Java
 
-Each folder is a separate project with its own build, `vrt.json.example` and README, on [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) 5.5.0 from JitPack and Java 17 or later. The browser examples open https://the-internet.herokuapp.com headless and track screenshots in a [Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) 6.0 server.
+Each folder is a separate project with its own build, `vrt.json.example` and README, on [sdk-java](https://github.com/Visual-Regression-Tracker/sdk-java) 5.5.0 from JitPack and Java 25 or later. The browser examples open https://the-internet.herokuapp.com headless and track screenshots in a [Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) 6.0 server.
 
 | Example                                                      | Stack                                                | Client                                                            |
 | ------------------------------------------------------------ | ---------------------------------------------------- | ----------------------------------------------------------------- |

@@ -6,7 +6,7 @@ CI only compiles this example: it needs a folder of images.
 
 ## Prerequisites
 
-- JDK 17 or later and Maven
+- JDK 25 or later and Maven
 - A running [Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) 6.0 server and its API key
 
 ## Setup
