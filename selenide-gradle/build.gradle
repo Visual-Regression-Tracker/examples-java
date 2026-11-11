@@ -16,7 +16,7 @@ dependencies {
     testImplementation 'com.codeborne:selenide:7.19.1'
     testImplementation 'org.testng:testng:7.12.0'
     // Selenide 7.19.1 brings opentelemetry 1.66.0 (CVE-2026-118259)
-    testImplementation platform('io.opentelemetry:opentelemetry-bom:1.67.0')
+    testImplementation platform('io.opentelemetry:opentelemetry-bom:1.68.0')
 }
 
 test {
