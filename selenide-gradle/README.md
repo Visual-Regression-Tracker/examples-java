@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-- JDK 17 or later; the Gradle wrapper downloads Gradle
+- JDK 25 or later; the Gradle wrapper downloads Gradle
 - Google Chrome; Selenium Manager downloads a matching chromedriver
 - A running [Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) 6.0 server and its API key
 

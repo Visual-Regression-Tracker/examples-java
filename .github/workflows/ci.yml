@@ -38,7 +38,7 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 25
           cache: maven
           cache-dependency-path: ${{ matrix.example }}/pom.xml
       - run: mvn -B test-compile
@@ -64,7 +64,7 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 25
       - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew testClasses
       - name: Wait for Visual Regression Tracker
@@ -87,7 +87,7 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 25
           cache: maven
           cache-dependency-path: ${{ matrix.example }}/pom.xml
       - run: mvn -B test-compile
